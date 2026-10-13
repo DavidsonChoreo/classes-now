@@ -10,6 +10,8 @@
 export default defineNuxtConfig({
   extends: ['@davidson/choreo-layer'],
   modules: ['@pinia/nuxt', '@nuxt/eslint'],
+  // Davidson colors and fonts, over the layer's placeholder tokens.
+  css: ['~/assets/css/brand.css'],
   compatibilityDate: '2026-10-01',
   devtools: { enabled: false },
 })

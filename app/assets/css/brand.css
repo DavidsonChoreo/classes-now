@@ -1,0 +1,72 @@
+/*
+ * Davidson brand colors and fonts for this app, from the Davidson College brand
+ * guide (Marketing Toolbox). They replace the layer's neutral placeholder
+ * tokens, so the layer's header and footer pick them up too. Pending College
+ * Communications approval; see BUILDER.md.
+ *
+ * These are plain CSS variables rather than a Tailwind @theme block: the
+ * layer's Tailwind utilities read the variables, and an unlayered :root rule
+ * wins over the layer's theme values.
+ *
+ * Contrast (brand guide asks for WCAG AAA on text), against white:
+ *   Black #0F1012 19.0:1, PMS 7540 C #4A484A 9.1:1, Lake Blue #294878 9.2:1.
+ *   Davidson Red #D42121 is 5.2:1, so it's used for large text, borders and
+ *   backgrounds behind large bold white text, never for body text or links.
+ *
+ * Fonts are self-hosted (SIL Open Font License, see ../fonts/OFL-*.txt), so the
+ * page makes no requests to Google: Libre Caslon Text for headings, Inter for
+ * body text, with the brand guide's fallbacks.
+ */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/inter-latin-variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Libre Caslon Text";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/libre-caslon-text-latin-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Libre Caslon Text";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/libre-caslon-text-latin-700.woff2") format("woff2");
+}
+
+:root {
+  /* The layer's tokens, set to Davidson's colors. */
+  --color-dc-ink: #0f1012; /* Black */
+  --color-dc-paper: #ffffff; /* White */
+  --color-dc-muted: #4a484a; /* PMS 7540 C */
+  --color-dc-accent: #d42121; /* Davidson Red */
+  --color-dc-on-accent: #ffffff; /* White */
+
+  /* Supporting colors this app uses. */
+  --color-dc-link: #294878; /* Lake Blue */
+  --color-dc-rule: #d4cfce; /* PMS Cool Gray 3, for borders */
+  --color-dc-wash: #f9f5f2; /* PMS Cool Gray 1, for quiet backgrounds */
+  --color-dc-sand: #e9ded3; /* Sandstone */
+
+  --font-sans: "Inter", Helvetica, Arial, sans-serif;
+  --font-serif: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+}
+
+/*
+ * The layer's header: white on Davidson Red is 5.2:1, which meets AAA only as
+ * large text, so the app name is set large and bold. The selector is a little
+ * more specific than the layer's scoped style, so no !important is needed.
+ */
+header.dc-header .dc-header__title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+}

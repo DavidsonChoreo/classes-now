@@ -19,7 +19,7 @@ const summary = computed(() => {
 
 <template>
   <section class="mx-auto max-w-6xl px-4 py-8">
-    <h1 class="text-3xl font-semibold">
+    <h1 class="font-serif text-3xl font-bold md:text-4xl">
       What's being taught right now
     </h1>
     <p class="mt-2 text-dc-muted">
@@ -43,7 +43,7 @@ const summary = computed(() => {
           <NuxtLink
             v-if="pinned"
             to="/"
-            class="ml-2 text-dc-accent underline"
+            class="ml-2 text-(--color-dc-link) underline underline-offset-2"
           >
             See what's happening now
           </NuxtLink>
@@ -74,7 +74,7 @@ const summary = computed(() => {
       </p>
       <button
         type="button"
-        class="mt-3 rounded bg-dc-accent px-4 py-2 font-medium text-dc-on-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dc-accent"
+        class="mt-3 rounded bg-(--color-dc-link) px-4 py-2 font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--color-dc-link)"
         :disabled="loading"
         @click="reload"
       >
@@ -95,35 +95,13 @@ const summary = computed(() => {
         <span v-if="buildings.length === 0">Nothing starts in the next {{ soonMinutes }} minutes either.</span>
       </p>
 
-      <ul class="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <ul class="mt-6 gap-6 md:columns-2 xl:columns-3">
         <li
           v-for="building in buildings"
           :key="building.building"
-          class="rounded-lg border border-dc-muted/30 p-5"
+          class="mb-6 break-inside-avoid"
         >
-          <h2 class="text-xl font-semibold">
-            {{ building.buildingName }}
-          </h2>
-
-          <template v-if="building.inSession.length">
-            <h3 class="mt-4 text-sm font-semibold uppercase tracking-wide text-dc-muted">
-              In session
-            </h3>
-            <SessionList
-              :sessions="building.inSession"
-              mode="now"
-            />
-          </template>
-
-          <template v-if="building.startingSoon.length">
-            <h3 class="mt-4 text-sm font-semibold uppercase tracking-wide text-dc-muted">
-              Starting in the next {{ soonMinutes }} minutes
-            </h3>
-            <SessionList
-              :sessions="building.startingSoon"
-              mode="soon"
-            />
-          </template>
+          <BuildingCard :building="building" />
         </li>
       </ul>
     </template>
