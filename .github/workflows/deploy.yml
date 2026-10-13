@@ -1,0 +1,73 @@
+# Publishes this app to GitHub Pages on every merge to main. Managed by Platform Engineering: leave it as it is and
+# ask PE for changes. The site is built with `nuxt generate`; the Choreo layer sets the base path from the passport,
+# so the output is made for https://davidsonchoreo.github.io/classes-now/. GitHub Pages serves the uploaded build,
+# never a branch. A shared Pages workflow in DavidsonChoreo/dc-choreo-workflows takes over the build later, the way
+# container apps call deploy.yml there.
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Only main publishes, and only a Pages site
+        env:
+          REF: ${{ github.ref }}
+        run: |
+          set -euo pipefail
+          if [ "$REF" != "refs/heads/main" ]; then
+            echo "::error::Choreo publishes only from main, after a merge (pipeline.md decision 25). This run was on $REF."
+            exit 1
+          fi
+          tier="$(yq -r '.profile.tier // ""' PASSPORT.yml)"
+          if [ "$tier" != "pages" ]; then
+            echo "::error file=PASSPORT.yml::This workflow publishes a Pages site, and the passport's tier is \`$tier\`. A container app deploys through Platform Engineering's deploy stub."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install the tested package set
+        run: npm ci
+
+      - name: Build the static site
+        run: npm run build
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: .output/public
+
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
