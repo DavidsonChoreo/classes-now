@@ -1,0 +1,38 @@
+# Choreo passport: what this app is, who owns it, what data it holds and where it runs.
+# Platform Engineering approves every change. Read AGENTS.md rules 1 and 2 before editing.
+passport: 1
+app: "classes-now"
+purpose: "A public, live view of which classes are meeting right now in each campus building, built from the Registrar's course schedule, for students, visitors, and staff."
+app_owners:
+  - { name: "JD Mills", email: "jdmills@davidson.edu" }
+business_owner: { name: "Nick Roberts", email: "niroberts@davidson.edu" }
+department: "Technology & Innovation"
+custody: "The business owner names a new app owner within 30 days."
+created: "2026-10-13"
+review: "2027-10-13"
+profile:
+  door: "look"
+  driver: "person"
+  audience: "public"
+  clearance: true
+  data_classification: "public"
+  source: "one-system"
+  writes: "none"
+  consumption: "web"
+  tier: "pages"
+audience_scope: "external"
+brand: "branded"
+indexable: false
+custom_domain: null
+license: "Apache-2.0"
+road: "paved"
+stack: "nuxt"
+scaffolded_with: "@davidson/create-choreo-app@0.2.0"
+build_environment: "host-node"
+built_with: "davidson-choreo@0.5.1"
+risk_tier: "high"
+regulations: []
+roles: []
+integrations: []
+llm: null
+retention: []

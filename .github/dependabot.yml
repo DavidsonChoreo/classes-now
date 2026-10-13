@@ -1,0 +1,15 @@
+# Dependabot proposes updates. A person reviews and merges each one; nothing
+# merges automatically. Major versions of Node and TypeScript are left to
+# Platform Engineering's fleet updates.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      dependencies:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
