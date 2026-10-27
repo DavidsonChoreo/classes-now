@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@davidson/choreo-layer": "https://github.com/DavidsonCollege/dc-choreo-scaffold/releases/download/v0.2.0/davidson-choreo-layer-0.2.0.tgz",
-    "nuxt": "4.6.1",
+    "nuxt": "4.6.3",
     "vue": "3.5.43",
     "pinia": "4.0.3",
     "@pinia/nuxt": "1.0.2"
